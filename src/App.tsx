@@ -14,13 +14,13 @@ import {
   MessageSquare,
   Moon,
   Palette,
+  Ruler,
   ShieldCheck,
   SlidersHorizontal,
   Sparkles,
   Sun,
   Terminal,
   Type,
-  Bookmark,
   Database,
 } from "lucide-react";
 
@@ -455,11 +455,11 @@ function Features() {
               in one place.
             </>
           }
-          body="Paste a link and it's saved, cleaned and ready. Bookmark a page into a folder called Yomu in Chrome, Brave or Helium and it lands in your Inbox. No extension to install."
+          body="Paste a link and it's saved, cleaned and ready. Every blog and paper you open stays in one library you can search, sort into collections and come back to."
           points={[
-            "Works with browser sync, even from your phone",
             "Collections to keep topics together",
             "Tabs for reading several things side by side",
+            "Archive what you've finished, without losing it",
           ]}
           shot={
             <Shot
@@ -469,6 +469,33 @@ function Features() {
               height={1560}
             />
           }
+        />
+        <Feature
+          n="04"
+          tag="Bookmarks"
+          title={
+            <>
+              Bookmark it anywhere.
+              <br />
+              Read it in Yomu.
+            </>
+          }
+          body="Save a page into a bookmark folder called Yomu in Chrome, Brave or Helium. Yomu picks it up, cleans it and puts it in your Inbox, ready when you are."
+          points={[
+            "No extension to install: Yomu reads your browser's own bookmarks",
+            "Works with browser sync, so pages you bookmark on your phone arrive too",
+            "Pages bookmarked while Yomu was closed are there when it opens",
+            "One switch in Settings turns it on or off",
+          ]}
+          shot={
+            <Shot
+              name="inbox"
+              alt="Yomu's Inbox with three pages saved from browser bookmarks"
+              width={2400}
+              height={1560}
+            />
+          }
+          flip
         />
       </Rails>
     </section>
@@ -484,7 +511,12 @@ const SETTINGS = [
   {
     icon: Type,
     title: "Your typeface",
-    body: "Ten reading fonts, from Inter and Atkinson Hyperlegible to Literata, Lora and Newsreader. Set the text size and line width from the Aa menu.",
+    body: "Ten reading fonts, from Inter and Atkinson Hyperlegible to Literata, Lora and Newsreader.",
+  },
+  {
+    icon: Ruler,
+    title: "Size and width",
+    body: "Set the text size and line width from the Aa menu while you read. The page reflows as you change them.",
   },
   {
     icon: SlidersHorizontal,
@@ -495,11 +527,6 @@ const SETTINGS = [
     icon: Terminal,
     title: "Choose your agent",
     body: "Switch between Codex, Claude Code, OpenCode or your own ACP command whenever you like.",
-  },
-  {
-    icon: Bookmark,
-    title: "Bookmarks inbox",
-    body: "Turn the browser bookmark import on or off.",
   },
   {
     icon: Database,
@@ -513,7 +540,7 @@ function Settings() {
     <section id="settings" className="border-b border-[var(--color-line)]">
       <Rails className="grid lg:grid-cols-[1fr_1.15fr]">
         <Reveal className="border-b border-[var(--color-line)] p-8 sm:p-12 lg:border-r lg:border-b-0">
-          <Label n="04">Settings</Label>
+          <Label n="05">Settings</Label>
           <h2 className="mt-5 font-serif text-[2.4rem] leading-[1.05] font-medium tracking-tight">
             Make it yours.
           </h2>
@@ -581,7 +608,7 @@ function Agents() {
       className="bg-night text-snow dots border-b border-[var(--color-night-line)]"
     >
       <Rails className="border-[var(--color-night-line)] px-5 py-24 sm:px-12">
-        <Label n="05">Agents</Label>
+        <Label n="06">Agents</Label>
         <Reveal className="mt-6 grid gap-10 lg:grid-cols-[1.1fr_1fr] lg:items-end">
           <h2 className="font-serif text-[2.4rem] leading-[1.05] font-medium tracking-tight sm:text-[3.4rem]">
             Bring the agent
@@ -647,7 +674,7 @@ function Local() {
     <section id="local" className="border-b border-[var(--color-line)]">
       <Rails className="grid md:grid-cols-2">
         <Reveal className="border-b border-[var(--color-line)] p-8 sm:p-12 md:border-r md:border-b-0">
-          <Label n="06">Local first</Label>
+          <Label n="07">Local first</Label>
           <h2 className="mt-5 font-serif text-[2rem] leading-[1.1] font-medium tracking-tight">
             Quiet by design.
           </h2>
@@ -666,7 +693,7 @@ function Local() {
           </div>
         </Reveal>
         <Reveal delay={120} className="p-8 sm:p-12">
-          <Label n="07">Keyboard</Label>
+          <Label n="08">Keyboard</Label>
           <h2 className="mt-5 font-serif text-[2rem] leading-[1.1] font-medium tracking-tight">
             Hands stay on the keys.
           </h2>
