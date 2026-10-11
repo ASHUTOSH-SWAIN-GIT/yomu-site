@@ -2,7 +2,6 @@ import { useEffect, useState, type ReactNode } from "react";
 import { DownloadMenu, detect } from "./download";
 import { CopyCommand } from "./copy";
 import { Brackets, Stats, Tag } from "./grid";
-import { IsoGrid, PageStack } from "./iso";
 import { Reveal } from "./reveal";
 import {
   ArrowRight,
@@ -177,8 +176,7 @@ function Hero() {
   const [mac, setMac] = useState(true);
   useEffect(() => setMac(detect() === "mac"), []);
   return (
-    <section className="relative isolate border-b border-[var(--color-line)]">
-      <IsoGrid className="absolute inset-x-0 top-0 -z-10 h-[46rem] w-full" />
+    <section className="border-b border-[var(--color-line)]">
       <Rails className="px-5 pt-20 pb-16 text-center sm:pt-28">
         <a
           href={`${REPO}/releases`}
@@ -191,11 +189,6 @@ function Hero() {
           <ArrowRight className="size-3" />
         </a>
         <div className="relative mt-7">
-          <PageStack className="float-slow absolute top-1/2 -left-4 hidden w-36 -translate-y-1/2 lg:block xl:w-48" />
-          <PageStack
-            sheets={3}
-            className="float-slower absolute top-1/2 -right-2 hidden w-32 -translate-y-[30%] -scale-x-100 lg:block xl:w-40"
-          />
           <h1 className="mx-auto max-w-4xl font-display text-[2.9rem] leading-[1.04] font-normal tracking-[-0.04em] sm:text-[5rem]">
             <span className="block">
               <span className="word" style={{ animationDelay: "80ms" }}>
@@ -635,8 +628,7 @@ function Local() {
 
 function Cta() {
   return (
-    <section className="relative isolate border-b border-[var(--color-line)]">
-      <IsoGrid className="absolute inset-0 -z-10 h-full w-full" />
+    <section className="border-b border-[var(--color-line)]">
       <Rails className="px-5 py-28 text-center">
         <Reveal>
           <img src="/icon.png" alt="" className="mx-auto size-20" />
