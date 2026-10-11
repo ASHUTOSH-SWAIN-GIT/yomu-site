@@ -7,33 +7,34 @@ import { useId } from "react";
 const S = 28; // grid spacing
 const W = S * Math.sqrt(3); // tile width for lines at 30 degrees
 
-/** An isometric grid that fades out from the middle. */
+/** An isometric grid that fades out from the middle. The fade is a mask on
+ * a wrapping div: Safari ignores a CSS mask set on an <svg> itself. */
 export function IsoGrid({ className = "" }: { className?: string }) {
-  const id = useId();
+  // React's ids contain characters some browsers reject in url(#...).
+  const id = `iso${useId().replace(/[^a-zA-Z0-9]/g, "")}`;
+  const fade =
+    "radial-gradient(ellipse 60% 55% at 50% 45%, black 10%, transparent 75%)";
   return (
-    <svg
+    <div
       aria-hidden
       className={`text-ink pointer-events-none ${className}`}
-      style={{
-        maskImage:
-          "radial-gradient(ellipse 60% 55% at 50% 45%, black 10%, transparent 75%)",
-        WebkitMaskImage:
-          "radial-gradient(ellipse 60% 55% at 50% 45%, black 10%, transparent 75%)",
-      }}
+      style={{ maskImage: fade, WebkitMaskImage: fade }}
     >
-      <defs>
-        <pattern id={id} width={W} height={S} patternUnits="userSpaceOnUse">
-          <path
-            d={`M0 0L${W} ${S}M0 ${S}L${W} 0M0 0V${S}M${W / 2} 0V${S}`}
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="0.6"
-            opacity="0.15"
-          />
-        </pattern>
-      </defs>
-      <rect width="100%" height="100%" fill={`url(#${id})`} />
-    </svg>
+      <svg className="block h-full w-full">
+        <defs>
+          <pattern id={id} width={W} height={S} patternUnits="userSpaceOnUse">
+            <path
+              d={`M0 0L${W} ${S}M0 ${S}L${W} 0M0 0V${S}M${W / 2} 0V${S}`}
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="0.6"
+              opacity="0.22"
+            />
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill={`url(#${id})`} />
+      </svg>
+    </div>
   );
 }
 

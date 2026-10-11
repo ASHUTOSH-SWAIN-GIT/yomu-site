@@ -13,15 +13,10 @@ import {
   Link2,
   MessageSquare,
   Moon,
-  Palette,
-  Ruler,
   ShieldCheck,
-  SlidersHorizontal,
   Sparkles,
   Sun,
   Terminal,
-  Type,
-  Database,
 } from "lucide-react";
 
 /** GitHub's mark (lucide no longer ships brand icons). */
@@ -147,9 +142,6 @@ function Nav() {
           <a href="#features" className="hover:text-ink">
             Features
           </a>
-          <a href="#settings" className="hover:text-ink">
-            Settings
-          </a>
           <a href="#agents" className="hover:text-ink">
             Agents
           </a>
@@ -199,10 +191,10 @@ function Hero() {
           <ArrowRight className="size-3" />
         </a>
         <div className="relative mt-7">
-          <PageStack className="float-slow absolute top-1/2 -left-4 hidden w-48 -translate-y-1/2 xl:block" />
+          <PageStack className="float-slow absolute top-1/2 -left-4 hidden w-36 -translate-y-1/2 lg:block xl:w-48" />
           <PageStack
             sheets={3}
-            className="float-slower absolute top-1/2 -right-2 hidden w-40 -translate-y-[30%] -scale-x-100 xl:block"
+            className="float-slower absolute top-1/2 -right-2 hidden w-32 -translate-y-[30%] -scale-x-100 lg:block xl:w-40"
           />
           <h1 className="mx-auto max-w-4xl font-display text-[2.9rem] leading-[1.04] font-normal tracking-[-0.04em] sm:text-[5rem]">
             <span className="block">
@@ -502,81 +494,6 @@ function Features() {
   );
 }
 
-const SETTINGS = [
-  {
-    icon: Palette,
-    title: "22 themes",
-    body: "Yomu Light, Paper and Yomu Dark, plus Catppuccin, Gruvbox, Nord, Tokyo Night, Dracula, Rosé Pine and more. Or let it follow your system.",
-  },
-  {
-    icon: Type,
-    title: "Your typeface",
-    body: "Ten reading fonts, from Inter and Atkinson Hyperlegible to Literata, Lora and Newsreader.",
-  },
-  {
-    icon: Ruler,
-    title: "Size and width",
-    body: "Set the text size and line width from the Aa menu while you read. The page reflows as you change them.",
-  },
-  {
-    icon: SlidersHorizontal,
-    title: "Answers that fit you",
-    body: "Pick a skill level (Beginner, Balanced or Expert), write your own answer style, like “keep it short” or “reply in Hindi”, and choose a default model.",
-  },
-  {
-    icon: Terminal,
-    title: "Choose your agent",
-    body: "Switch between Codex, Claude Code, OpenCode or your own ACP command whenever you like.",
-  },
-  {
-    icon: Database,
-    title: "Your data, your call",
-    body: "Block remote images, see where your library is kept, clear saved images, delete chats, or wipe everything.",
-  },
-];
-
-function Settings() {
-  return (
-    <section id="settings" className="border-b border-[var(--color-line)]">
-      <Rails className="grid lg:grid-cols-[1fr_1.15fr]">
-        <Reveal className="border-b border-[var(--color-line)] p-8 sm:p-12 lg:border-r lg:border-b-0">
-          <Label n="05">Settings</Label>
-          <h2 className="mt-5 font-serif text-[2.4rem] leading-[1.05] font-medium tracking-tight">
-            Make it yours.
-          </h2>
-          <p className="text-muted mt-4 leading-relaxed">
-            Everything about how Yomu looks and answers is in one Customize
-            page. Try the switch at the top of this page: the screenshots follow
-            it, just like the app does.
-          </p>
-          <div className="mt-8 grid gap-6 sm:grid-cols-2">
-            {SETTINGS.map((it) => (
-              <div key={it.title}>
-                <it.icon
-                  className="text-ribbon size-[18px]"
-                  strokeWidth={1.5}
-                />
-                <h3 className="mt-2.5 text-[15px] font-medium">{it.title}</h3>
-                <p className="text-muted mt-1 text-sm leading-relaxed">
-                  {it.body}
-                </p>
-              </div>
-            ))}
-          </div>
-        </Reveal>
-        <Reveal delay={120} className="bg-wash flex items-center p-6 sm:p-10">
-          <Shot
-            name="settings"
-            alt="Yomu's Customize page with the theme list open"
-            width={2400}
-            height={1560}
-          />
-        </Reveal>
-      </Rails>
-    </section>
-  );
-}
-
 const AGENTS = [
   { name: "Codex", by: "OpenAI", note: "Uses your ChatGPT plan" },
   { name: "Claude Code", by: "Anthropic", note: "Uses your Claude plan" },
@@ -608,7 +525,7 @@ function Agents() {
       className="bg-night text-snow dots border-b border-[var(--color-night-line)]"
     >
       <Rails className="border-[var(--color-night-line)] px-5 py-24 sm:px-12">
-        <Label n="06">Agents</Label>
+        <Label n="05">Agents</Label>
         <Reveal className="mt-6 grid gap-10 lg:grid-cols-[1.1fr_1fr] lg:items-end">
           <h2 className="font-serif text-[2.4rem] leading-[1.05] font-medium tracking-tight sm:text-[3.4rem]">
             Bring the agent
@@ -674,7 +591,7 @@ function Local() {
     <section id="local" className="border-b border-[var(--color-line)]">
       <Rails className="grid md:grid-cols-2">
         <Reveal className="border-b border-[var(--color-line)] p-8 sm:p-12 md:border-r md:border-b-0">
-          <Label n="07">Local first</Label>
+          <Label n="06">Local first</Label>
           <h2 className="mt-5 font-serif text-[2rem] leading-[1.1] font-medium tracking-tight">
             Quiet by design.
           </h2>
@@ -693,7 +610,7 @@ function Local() {
           </div>
         </Reveal>
         <Reveal delay={120} className="p-8 sm:p-12">
-          <Label n="08">Keyboard</Label>
+          <Label n="07">Keyboard</Label>
           <h2 className="mt-5 font-serif text-[2rem] leading-[1.1] font-medium tracking-tight">
             Hands stay on the keys.
           </h2>
@@ -775,7 +692,6 @@ export default function App() {
         <Hero />
         <Steps />
         <Features />
-        <Settings />
         <Agents />
         <Local />
         <Cta />
