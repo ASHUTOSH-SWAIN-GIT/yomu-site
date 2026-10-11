@@ -1,6 +1,7 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { DownloadMenu, detect } from "./download";
 import { CopyCommand } from "./copy";
+import { Brackets, Frame, Gutters, Stats, Tag } from "./grid";
 import { Reveal } from "./reveal";
 import {
   ArrowRight,
@@ -195,24 +196,26 @@ function Hero() {
           free · open source · local first
           <ArrowRight className="size-3" />
         </a>
-        <h1 className="mx-auto mt-7 max-w-4xl font-display text-[2.9rem] leading-[1.04] font-normal tracking-[-0.04em] sm:text-[5rem]">
-          <span className="block">
-            <span className="word" style={{ animationDelay: "80ms" }}>
-              Read
-            </span>{" "}
-            <span className="word" style={{ animationDelay: "160ms" }}>
-              deeply.
+        <Frame className="-mx-5 mt-9 px-5 py-9 sm:py-11">
+          <h1 className="mx-auto max-w-4xl font-display text-[2.9rem] leading-[1.04] font-normal tracking-[-0.04em] sm:text-[5rem]">
+            <span className="block">
+              <span className="word" style={{ animationDelay: "80ms" }}>
+                Read
+              </span>{" "}
+              <span className="word" style={{ animationDelay: "160ms" }}>
+                deeply.
+              </span>
             </span>
-          </span>
-          <span className="text-ribbon block">
-            <span className="word" style={{ animationDelay: "320ms" }}>
-              Ask
-            </span>{" "}
-            <span className="word" style={{ animationDelay: "400ms" }}>
-              anything.
+            <span className="text-ribbon block">
+              <span className="word" style={{ animationDelay: "320ms" }}>
+                Ask
+              </span>{" "}
+              <span className="word" style={{ animationDelay: "400ms" }}>
+                anything.
+              </span>
             </span>
-          </span>
-        </h1>
+          </h1>
+        </Frame>
         <p
           className="rise text-muted mx-auto mt-6 max-w-xl text-[1.05rem] leading-relaxed"
           style={{ animationDelay: "560ms" }}
@@ -237,12 +240,10 @@ function Hero() {
             className="rise mx-auto mt-6 w-fit max-w-full"
             style={{ animationDelay: "800ms" }}
           >
-            <p className="text-muted font-mono text-[10px] tracking-[0.18em] uppercase">
-              Run this after install
-            </p>
-            <div className="mt-2.5">
+            <Tag>Run this after install</Tag>
+            <Brackets className="mt-3">
               <CopyCommand command="xattr -cr /Applications/Yomu.app" />
-            </div>
+            </Brackets>
             <p className="text-muted mx-auto mt-2.5 max-w-[22rem] text-[12px] leading-relaxed text-balance">
               macOS blocks apps that aren't signed by Apple, and Yomu isn't yet.
               Run this in Terminal once to open it.
@@ -254,7 +255,20 @@ function Hero() {
           </p>
         )}
       </Rails>
-      <Rails className="relative px-3 pb-16 sm:px-8">
+      <Rails className="px-0">
+        <div className="pb-3 text-center">
+          <Tag>At a glance</Tag>
+        </div>
+        <Stats
+          items={[
+            ["Platforms", "Mac · Win · Linux"],
+            ["Agents", "Codex · Claude · +2"],
+            ["Themes", "22 built in"],
+            ["Account", "None needed"],
+          ]}
+        />
+      </Rails>
+      <Rails className="relative px-3 pt-14 pb-16 sm:px-8">
         <div
           aria-hidden
           className="glow bg-ribbon/15 absolute inset-x-24 top-16 -z-10 h-64 rounded-full blur-3xl"
@@ -359,15 +373,18 @@ function Feature({
 function Features() {
   return (
     <section id="features" className="border-b border-[var(--color-line)]">
-      <Rails className="px-5 pt-24 pb-14 text-center sm:px-8">
+      <Rails className="px-5 pt-20 text-center sm:px-8">
         <Reveal>
-          <h2 className="font-serif text-[2.4rem] leading-tight font-medium tracking-tight sm:text-5xl">
-            Made for reading that takes effort.
-          </h2>
-          <p className="text-muted mx-auto mt-4 max-w-lg">
-            Long posts, dense docs, forty-page papers. Yomu keeps you in the
-            text and gives you help the moment you need it.
-          </p>
+          <Tag>What it does</Tag>
+          <Frame className="-mx-5 mt-5 px-5 py-12 sm:-mx-8 sm:px-8">
+            <h2 className="font-serif text-[2.4rem] leading-tight font-medium tracking-tight sm:text-5xl">
+              Made for reading that takes effort.
+            </h2>
+            <p className="text-muted mx-auto mt-4 max-w-lg">
+              Long posts, dense docs, forty-page papers. Yomu keeps you in the
+              text and gives you help the moment you need it.
+            </p>
+          </Frame>
         </Reveal>
       </Rails>
       <Rails className="border-t border-[var(--color-line)]">
@@ -671,9 +688,11 @@ function Cta() {
       <Rails className="px-5 py-28 text-center">
         <Reveal>
           <img src="/icon.png" alt="" className="mx-auto size-20" />
-          <h2 className="mx-auto mt-8 max-w-3xl font-display text-[2.4rem] leading-[1.06] font-normal tracking-[-0.04em] sm:text-6xl">
-            Your next long read deserves better than a browser tab.
-          </h2>
+          <Frame className="-mx-5 mt-10 px-5 py-10">
+            <h2 className="mx-auto max-w-3xl font-display text-[2.4rem] leading-[1.06] font-normal tracking-[-0.04em] sm:text-6xl">
+              Your next long read deserves better than a browser tab.
+            </h2>
+          </Frame>
           <div className="mt-10 flex flex-wrap justify-center gap-3">
             <DownloadMenu label="Download Yomu" />
             <a
@@ -717,7 +736,8 @@ export default function App() {
   return (
     <>
       <Nav />
-      <main>
+      <main className="relative isolate overflow-x-clip">
+        <Gutters />
         <Hero />
         <Steps />
         <Features />
