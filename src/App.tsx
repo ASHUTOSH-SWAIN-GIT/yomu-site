@@ -234,18 +234,18 @@ function Hero() {
         </div>
         {mac ? (
           <div
-            className="rise mx-auto mt-8 max-w-md"
+            className="rise mx-auto mt-6 w-fit max-w-full"
             style={{ animationDelay: "800ms" }}
           >
             <p className="text-muted font-mono text-[10px] tracking-[0.18em] uppercase">
               Run this after install
             </p>
-            <div className="mt-3">
+            <div className="mt-2.5">
               <CopyCommand command="xattr -cr /Applications/Yomu.app" />
             </div>
-            <p className="text-muted mt-3 text-[13px] leading-relaxed">
-              macOS blocks apps without an Apple certificate by default, and
-              Yomu isn't signed yet. Run this in Terminal once to open it.
+            <p className="text-muted mx-auto mt-2.5 max-w-[22rem] text-[12px] leading-relaxed text-balance">
+              macOS blocks apps that aren't signed by Apple, and Yomu isn't yet.
+              Run this in Terminal once to open it.
             </p>
           </div>
         ) : (
