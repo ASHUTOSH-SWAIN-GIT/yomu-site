@@ -96,6 +96,9 @@ export function DownloadMenu({
   const [platform, setPlatform] = useState<Platform>("mac");
   const [arm, setArm] = useState<boolean | null>(null);
   const [more, setMore] = useState(false);
+  // Kept mounted for a moment after closing so the menu can fade out.
+  const [shown, setShown] = useState(false);
+  const closing = shown && !open;
   const [files, setFiles] = useState<{ name: string; url: string }[]>([]);
   const root = useRef<HTMLDivElement>(null);
 
@@ -104,6 +107,15 @@ export function DownloadMenu({
     void latestAssets().then(setFiles);
     void appleSilicon().then(setArm);
   }, []);
+
+  useEffect(() => {
+    if (open) {
+      setShown(true);
+      return;
+    }
+    const t = setTimeout(() => setShown(false), 130);
+    return () => clearTimeout(t);
+  }, [open]);
 
   useEffect(() => {
     if (!open) return;
@@ -129,7 +141,7 @@ export function DownloadMenu({
     arm !== null &&
     name === (arm ? "Apple Silicon" : "Intel");
 
-  const group = (g: (typeof GROUPS)[number], first: boolean) => (
+  const group = (g: (typeof GROUPS)[number], first: boolean, offset = 0) => (
     <div
       key={g.id}
       className={first ? "" : "border-t border-[var(--color-line)]"}
@@ -137,13 +149,14 @@ export function DownloadMenu({
       <p className="text-muted px-4 pt-3 pb-1 font-mono text-[10px] tracking-[0.14em] uppercase">
         {g.label}
       </p>
-      {g.items.map((it) => (
+      {g.items.map((it, n) => (
         <a
           key={it.name}
+          style={{ animationDelay: `${60 + (offset + n) * 45}ms` }}
           role="menuitem"
           href={href(it.match)}
           onClick={() => setOpen(false)}
-          className="hover:bg-wash flex items-center gap-3 px-4 py-2.5"
+          className="item-in hover:bg-wash flex items-center gap-3 px-4 py-2.5"
         >
           <Download className="text-muted size-4 shrink-0" />
           <span className="min-w-0 flex-1">
@@ -178,10 +191,11 @@ export function DownloadMenu({
           className={`size-4 opacity-70 transition-transform ${open ? "rotate-180" : ""}`}
         />
       </button>
-      {open && (
+      {(open || closing) && (
         <div
           role="menu"
-          className={`bg-card text-ink absolute top-full z-40 mt-2 w-72 overflow-hidden rounded-xl text-left shadow-[0_0_0_1px_var(--color-line),0_20px_50px_-16px_rgb(0_0_0/0.35)] ${
+          data-closing={closing}
+          className={`pop bg-card text-ink absolute top-full z-40 mt-2 w-72 overflow-hidden rounded-xl text-left shadow-[0_0_0_1px_var(--color-line),0_20px_50px_-16px_rgb(0_0_0/0.35)] ${
             align === "right" ? "right-0" : "left-1/2 -translate-x-1/2"
           }`}
         >

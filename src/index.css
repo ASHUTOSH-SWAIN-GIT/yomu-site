@@ -77,6 +77,7 @@ body {
   background-size: 14px 14px;
 }
 
+/* Entrances. The hero plays once on load; the rest wait for the scroll. */
 .rise {
   animation: rise 700ms cubic-bezier(0.22, 1, 0.36, 1) both;
 }
@@ -84,6 +85,91 @@ body {
   from {
     opacity: 0;
     transform: translateY(14px);
+  }
+}
+
+.word {
+  display: inline-block;
+  animation: word 800ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@keyframes word {
+  from {
+    opacity: 0;
+    transform: translateY(0.45em);
+    filter: blur(8px);
+  }
+}
+
+.lift {
+  animation: lift 1100ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  transform-origin: 50% 0;
+}
+@keyframes lift {
+  from {
+    opacity: 0;
+    transform: translateY(48px) scale(0.965);
+  }
+}
+
+.glow {
+  animation: glow 1800ms ease-out both;
+}
+@keyframes glow {
+  from {
+    opacity: 0;
+    transform: scale(0.7);
+  }
+}
+
+.fade-down {
+  animation: fade-down 600ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@keyframes fade-down {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 700ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.reveal[data-seen="true"] {
+  opacity: 1;
+  transform: none;
+}
+
+/* The download menu grows out of its button, its rows following one by one. */
+.pop {
+  transform-origin: top center;
+  animation: pop 200ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.pop[data-closing="true"] {
+  animation: pop-out 120ms ease-in both;
+}
+@keyframes pop {
+  from {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.95);
+  }
+}
+@keyframes pop-out {
+  to {
+    opacity: 0;
+    transform: translateY(-6px) scale(0.97);
+  }
+}
+.item-in {
+  animation: item-in 320ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@keyframes item-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
   }
 }
 
@@ -98,7 +184,18 @@ body {
 
 @media (prefers-reduced-motion: reduce) {
   .rise,
+  .word,
+  .lift,
+  .glow,
+  .fade-down,
+  .pop,
+  .item-in,
   .blink {
     animation: none;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
   }
 }

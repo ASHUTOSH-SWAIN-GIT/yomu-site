@@ -1,5 +1,6 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { DownloadMenu } from "./download";
+import { Reveal } from "./reveal";
 import {
   ArrowRight,
   ArrowUpRight,
@@ -133,7 +134,7 @@ function Shot({
 function Nav() {
   const { dark, toggle } = useTheme();
   return (
-    <header className="bg-paper/80 sticky top-0 z-30 border-b border-[var(--color-line)] backdrop-blur-md">
+    <header className="fade-down bg-paper/80 sticky top-0 z-30 border-b border-[var(--color-line)] backdrop-blur-md">
       <div className="mx-auto flex h-14 max-w-6xl items-center gap-6 px-5">
         <a href="#" className="flex items-center gap-2 font-semibold">
           <img src="/icon.png" alt="" className="size-6" />
@@ -190,24 +191,34 @@ function Hero() {
           free · open source · local first
           <ArrowRight className="size-3" />
         </a>
-        <h1
-          className="rise mx-auto mt-7 max-w-3xl font-serif text-[2.9rem] leading-[1.02] font-medium tracking-[-0.03em] sm:text-[4.6rem]"
-          style={{ animationDelay: "80ms" }}
-        >
-          Read deeply.
-          <br />
-          <em className="text-ribbon font-normal">Ask anything.</em>
+        <h1 className="mx-auto mt-7 max-w-4xl font-sans text-[2.9rem] leading-[1.02] font-semibold tracking-[-0.045em] sm:text-[5rem]">
+          <span className="block">
+            <span className="word" style={{ animationDelay: "80ms" }}>
+              Read
+            </span>{" "}
+            <span className="word" style={{ animationDelay: "160ms" }}>
+              deeply.
+            </span>
+          </span>
+          <span className="text-ribbon block">
+            <span className="word" style={{ animationDelay: "320ms" }}>
+              Ask
+            </span>{" "}
+            <span className="word" style={{ animationDelay: "400ms" }}>
+              anything.
+            </span>
+          </span>
         </h1>
         <p
           className="rise text-muted mx-auto mt-6 max-w-xl text-[1.05rem] leading-relaxed"
-          style={{ animationDelay: "160ms" }}
+          style={{ animationDelay: "560ms" }}
         >
           Yomu is a calm desktop reader for technical blogs, docs and research
           papers, with the AI agent already on your computer beside every page.
         </p>
         <div
           className="rise relative z-20 mt-9 flex flex-wrap items-center justify-center gap-3"
-          style={{ animationDelay: "240ms" }}
+          style={{ animationDelay: "680ms" }}
         >
           <DownloadMenu />
           <a
@@ -224,9 +235,9 @@ function Hero() {
       <Rails className="relative px-3 pb-16 sm:px-8">
         <div
           aria-hidden
-          className="bg-ribbon/15 absolute inset-x-24 top-16 -z-10 h-64 rounded-full blur-3xl"
+          className="glow bg-ribbon/15 absolute inset-x-24 top-16 -z-10 h-64 rounded-full blur-3xl"
         />
-        <div className="rise" style={{ animationDelay: "320ms" }}>
+        <div className="lift" style={{ animationDelay: "800ms" }}>
           <Shot
             name="hero"
             alt="Yomu with an article open and the agent answering in the chat beside it"
@@ -262,15 +273,16 @@ function Steps() {
     <section className="border-b border-[var(--color-line)]">
       <Rails className="grid sm:grid-cols-3">
         {steps.map((s, i) => (
-          <div
+          <Reveal
             key={s.title}
+            delay={i * 90}
             className="border-b border-[var(--color-line)] p-8 last:border-0 sm:border-r sm:border-b-0 sm:last:border-r-0"
           >
             <p className="text-muted font-mono text-[11px]">0{i + 1}</p>
             <s.icon className="mt-6 size-5" strokeWidth={1.5} />
             <h3 className="mt-3 font-serif text-xl font-medium">{s.title}</h3>
             <p className="text-muted mt-2 text-sm leading-relaxed">{s.body}</p>
-          </div>
+          </Reveal>
         ))}
       </Rails>
     </section>
@@ -295,7 +307,7 @@ function Feature({
   flip?: boolean;
 }) {
   return (
-    <div className="grid border-b border-[var(--color-line)] last:border-0 md:grid-cols-2">
+    <Reveal className="grid border-b border-[var(--color-line)] last:border-0 md:grid-cols-2">
       <div
         className={`flex flex-col justify-center p-8 sm:p-12 ${flip ? "md:order-2" : ""}`}
       >
@@ -318,7 +330,7 @@ function Feature({
       >
         {shot}
       </div>
-    </div>
+    </Reveal>
   );
 }
 
@@ -326,13 +338,15 @@ function Features() {
   return (
     <section id="features" className="border-b border-[var(--color-line)]">
       <Rails className="px-5 pt-24 pb-14 text-center sm:px-8">
-        <h2 className="font-serif text-[2.4rem] leading-tight font-medium tracking-tight sm:text-5xl">
-          Made for reading that takes effort.
-        </h2>
-        <p className="text-muted mx-auto mt-4 max-w-lg">
-          Long posts, dense docs, forty-page papers. Yomu keeps you in the text
-          and gives you help the moment you need it.
-        </p>
+        <Reveal>
+          <h2 className="font-serif text-[2.4rem] leading-tight font-medium tracking-tight sm:text-5xl">
+            Made for reading that takes effort.
+          </h2>
+          <p className="text-muted mx-auto mt-4 max-w-lg">
+            Long posts, dense docs, forty-page papers. Yomu keeps you in the
+            text and gives you help the moment you need it.
+          </p>
+        </Reveal>
       </Rails>
       <Rails className="border-t border-[var(--color-line)]">
         <Feature
@@ -452,7 +466,7 @@ function Settings() {
   return (
     <section id="settings" className="border-b border-[var(--color-line)]">
       <Rails className="grid lg:grid-cols-[1fr_1.15fr]">
-        <div className="border-b border-[var(--color-line)] p-8 sm:p-12 lg:border-r lg:border-b-0">
+        <Reveal className="border-b border-[var(--color-line)] p-8 sm:p-12 lg:border-r lg:border-b-0">
           <Label n="04">Settings</Label>
           <h2 className="mt-5 font-serif text-[2.4rem] leading-[1.05] font-medium tracking-tight">
             Make it yours.
@@ -476,15 +490,15 @@ function Settings() {
               </div>
             ))}
           </div>
-        </div>
-        <div className="bg-wash flex items-center p-6 sm:p-10">
+        </Reveal>
+        <Reveal delay={120} className="bg-wash flex items-center p-6 sm:p-10">
           <Shot
             name="settings"
             alt="Yomu's Customize page with the theme list open"
             width={2400}
             height={1560}
           />
-        </div>
+        </Reveal>
       </Rails>
     </section>
   );
@@ -522,7 +536,7 @@ function Agents() {
     >
       <Rails className="border-[var(--color-night-line)] px-5 py-24 sm:px-12">
         <Label n="05">Agents</Label>
-        <div className="mt-6 grid gap-10 lg:grid-cols-[1.1fr_1fr] lg:items-end">
+        <Reveal className="mt-6 grid gap-10 lg:grid-cols-[1.1fr_1fr] lg:items-end">
           <h2 className="font-serif text-[2.4rem] leading-[1.05] font-medium tracking-tight sm:text-[3.4rem]">
             Bring the agent
             <br />
@@ -534,27 +548,27 @@ function Agents() {
             gives it good context: the article, the passage, the page, and a way
             to search everything else you've read.
           </p>
-        </div>
+        </Reveal>
         <div className="mt-14 grid gap-px overflow-hidden rounded-xl bg-[var(--color-night-line)] sm:grid-cols-2 lg:grid-cols-4">
-          {AGENTS.map((a) => (
-            <div key={a.name} className="bg-night-2 p-6">
+          {AGENTS.map((a, i) => (
+            <Reveal key={a.name} delay={i * 80} className="bg-night-2 p-6">
               <p className="text-snow/40 font-mono text-[10px] tracking-widest uppercase">
                 {a.by}
               </p>
               <p className="mt-2 text-lg font-medium">{a.name}</p>
               <p className="text-snow/50 mt-1 text-sm">{a.note}</p>
-            </div>
+            </Reveal>
           ))}
         </div>
         <div className="mt-14 grid gap-10 sm:grid-cols-3">
-          {promises.map((p) => (
-            <div key={p.title}>
+          {promises.map((p, i) => (
+            <Reveal key={p.title} delay={i * 100}>
               <p.icon className="text-ribbon size-5" strokeWidth={1.5} />
               <h3 className="mt-3 font-medium">{p.title}</h3>
               <p className="text-snow/55 mt-1.5 text-sm leading-relaxed">
                 {p.body}
               </p>
-            </div>
+            </Reveal>
           ))}
         </div>
       </Rails>
@@ -586,7 +600,7 @@ function Local() {
   return (
     <section id="local" className="border-b border-[var(--color-line)]">
       <Rails className="grid md:grid-cols-2">
-        <div className="border-b border-[var(--color-line)] p-8 sm:p-12 md:border-r md:border-b-0">
+        <Reveal className="border-b border-[var(--color-line)] p-8 sm:p-12 md:border-r md:border-b-0">
           <Label n="06">Local first</Label>
           <h2 className="mt-5 font-serif text-[2rem] leading-[1.1] font-medium tracking-tight">
             Quiet by design.
@@ -604,8 +618,8 @@ function Local() {
               </div>
             ))}
           </div>
-        </div>
-        <div className="p-8 sm:p-12">
+        </Reveal>
+        <Reveal delay={120} className="p-8 sm:p-12">
           <Label n="07">Keyboard</Label>
           <h2 className="mt-5 font-serif text-[2rem] leading-[1.1] font-medium tracking-tight">
             Hands stay on the keys.
@@ -623,7 +637,7 @@ function Local() {
               </div>
             ))}
           </div>
-        </div>
+        </Reveal>
       </Rails>
     </section>
   );
@@ -633,19 +647,21 @@ function Cta() {
   return (
     <section className="border-b border-[var(--color-line)]">
       <Rails className="px-5 py-28 text-center">
-        <img src="/icon.png" alt="" className="mx-auto size-20" />
-        <h2 className="mx-auto mt-8 max-w-2xl font-serif text-[2.6rem] leading-[1.05] font-medium tracking-tight sm:text-6xl">
-          Your next long read deserves better than a browser tab.
-        </h2>
-        <div className="mt-10 flex flex-wrap justify-center gap-3">
-          <DownloadMenu label="Download Yomu" />
-          <a
-            href={`${REPO}#readme`}
-            className="text-muted hover:text-ink inline-flex items-center gap-1.5 px-3 py-3 text-sm"
-          >
-            Read the docs <ArrowUpRight className="size-4" />
-          </a>
-        </div>
+        <Reveal>
+          <img src="/icon.png" alt="" className="mx-auto size-20" />
+          <h2 className="mx-auto mt-8 max-w-3xl font-sans text-[2.4rem] leading-[1.05] font-semibold tracking-[-0.04em] sm:text-6xl">
+            Your next long read deserves better than a browser tab.
+          </h2>
+          <div className="mt-10 flex flex-wrap justify-center gap-3">
+            <DownloadMenu label="Download Yomu" />
+            <a
+              href={`${REPO}#readme`}
+              className="text-muted hover:text-ink inline-flex items-center gap-1.5 px-3 py-3 text-sm"
+            >
+              Read the docs <ArrowUpRight className="size-4" />
+            </a>
+          </div>
+        </Reveal>
       </Rails>
     </section>
   );
