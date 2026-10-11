@@ -47,6 +47,27 @@ function detect(): Platform {
   return "mac";
 }
 
+/** On a Mac, whether the chip is Apple Silicon, where the browser says so
+ * (Chrome does; Safari and Firefox keep it private). */
+async function appleSilicon(): Promise<boolean | null> {
+  try {
+    const uad = (
+      navigator as unknown as {
+        userAgentData?: {
+          getHighEntropyValues: (
+            k: string[],
+          ) => Promise<{ architecture?: string }>;
+        };
+      }
+    ).userAgentData;
+    const { architecture } =
+      (await uad?.getHighEntropyValues(["architecture"])) ?? {};
+    return architecture ? architecture === "arm" : null;
+  } catch {
+    return null;
+  }
+}
+
 let assets: Promise<{ name: string; url: string }[]> | null = null;
 /** The files of the latest release, asked for once. Without them (offline,
  * rate limited) every link falls back to the release page. */
@@ -73,12 +94,15 @@ export function DownloadMenu({
 }) {
   const [open, setOpen] = useState(false);
   const [platform, setPlatform] = useState<Platform>("mac");
+  const [arm, setArm] = useState<boolean | null>(null);
+  const [more, setMore] = useState(false);
   const [files, setFiles] = useState<{ name: string; url: string }[]>([]);
   const root = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setPlatform(detect());
     void latestAssets().then(setFiles);
+    void appleSilicon().then(setArm);
   }, []);
 
   useEffect(() => {
@@ -87,6 +111,7 @@ export function DownloadMenu({
       if (!root.current?.contains(e.target as Node)) setOpen(false);
     };
     const esc = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
+    setMore(false);
     document.addEventListener("mousedown", away);
     document.addEventListener("keydown", esc);
     return () => {
@@ -98,7 +123,42 @@ export function DownloadMenu({
   const href = (match: RegExp) =>
     files.find((f) => match.test(f.name))?.url ?? RELEASES;
   const here = GROUPS.find((g) => g.id === platform)!;
-  const ordered = [here, ...GROUPS.filter((g) => g.id !== platform)];
+  const others = GROUPS.filter((g) => g.id !== platform);
+  const recommended = (platform: Platform, name: string) =>
+    platform === "mac" &&
+    arm !== null &&
+    name === (arm ? "Apple Silicon" : "Intel");
+
+  const group = (g: (typeof GROUPS)[number], first: boolean) => (
+    <div
+      key={g.id}
+      className={first ? "" : "border-t border-[var(--color-line)]"}
+    >
+      <p className="text-muted px-4 pt-3 pb-1 font-mono text-[10px] tracking-[0.14em] uppercase">
+        {g.label}
+      </p>
+      {g.items.map((it) => (
+        <a
+          key={it.name}
+          role="menuitem"
+          href={href(it.match)}
+          onClick={() => setOpen(false)}
+          className="hover:bg-wash flex items-center gap-3 px-4 py-2.5"
+        >
+          <Download className="text-muted size-4 shrink-0" />
+          <span className="min-w-0 flex-1">
+            <span className="block text-sm font-medium">{it.name}</span>
+            <span className="text-muted block text-xs">{it.note}</span>
+          </span>
+          {recommended(g.id, it.name) && (
+            <span className="bg-ribbon/15 text-ribbon rounded-full px-2 py-0.5 text-[10px] font-medium">
+              For your Mac
+            </span>
+          )}
+        </a>
+      ))}
+    </div>
+  );
 
   return (
     <div ref={root} className="relative inline-block text-left">
@@ -125,31 +185,18 @@ export function DownloadMenu({
             align === "right" ? "right-0" : "left-1/2 -translate-x-1/2"
           }`}
         >
-          {ordered.map((g, i) => (
-            <div
-              key={g.id}
-              className={i > 0 ? "border-t border-[var(--color-line)]" : ""}
+          {group(here, true)}
+          {more ? (
+            others.map((g) => group(g, false))
+          ) : (
+            <button
+              type="button"
+              onClick={() => setMore(true)}
+              className="text-muted hover:text-ink hover:bg-wash block w-full border-t border-[var(--color-line)] px-4 py-2.5 text-left text-xs"
             >
-              <p className="text-muted px-4 pt-3 pb-1 font-mono text-[10px] tracking-[0.14em] uppercase">
-                {g.label}
-              </p>
-              {g.items.map((it) => (
-                <a
-                  key={it.name}
-                  role="menuitem"
-                  href={href(it.match)}
-                  onClick={() => setOpen(false)}
-                  className="hover:bg-wash flex items-center gap-3 px-4 py-2.5"
-                >
-                  <Download className="text-muted size-4 shrink-0" />
-                  <span className="min-w-0">
-                    <span className="block text-sm font-medium">{it.name}</span>
-                    <span className="text-muted block text-xs">{it.note}</span>
-                  </span>
-                </a>
-              ))}
-            </div>
-          ))}
+              Other platforms ({others.map((g) => g.label).join(", ")})
+            </button>
+          )}
           <a
             href={RELEASES}
             className="text-muted hover:text-ink hover:bg-wash block border-t border-[var(--color-line)] px-4 py-2.5 text-xs"
