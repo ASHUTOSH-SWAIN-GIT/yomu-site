@@ -40,7 +40,8 @@ const GROUPS: {
   },
 ];
 
-function detect(): Platform {
+/** The visitor's system, read from the browser (a Mac when unsure). */
+export function detect(): Platform {
   const ua = navigator.userAgent;
   if (/Windows/i.test(ua)) return "windows";
   if (/Linux/i.test(ua) && !/Android/i.test(ua)) return "linux";
@@ -210,15 +211,6 @@ export function DownloadMenu({
             >
               Other platforms ({others.map((g) => g.label).join(", ")})
             </button>
-          )}
-          {platform === "mac" && (
-            <a
-              href="#install"
-              onClick={() => setOpen(false)}
-              className="text-muted hover:text-ink hover:bg-wash block border-t border-[var(--color-line)] px-4 py-2.5 text-xs"
-            >
-              macOS won't open it? Run one command
-            </a>
           )}
           <a
             href={RELEASES}

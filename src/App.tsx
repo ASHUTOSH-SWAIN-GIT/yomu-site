@@ -1,5 +1,5 @@
 import { useEffect, useState, type ReactNode } from "react";
-import { DownloadMenu } from "./download";
+import { DownloadMenu, detect } from "./download";
 import { CopyCommand } from "./copy";
 import { Reveal } from "./reveal";
 import {
@@ -179,6 +179,9 @@ function Nav() {
 }
 
 function Hero() {
+  // Only Mac visitors need the note; everyone else sees the platforms.
+  const [mac, setMac] = useState(true);
+  useEffect(() => setMac(detect() === "mac"), []);
   return (
     <section className="border-b border-[var(--color-line)]">
       <Rails className="px-5 pt-20 pb-16 text-center sm:pt-28">
@@ -229,9 +232,27 @@ function Hero() {
             <Github className="size-4" /> View on GitHub
           </a>
         </div>
-        <p className="text-muted mt-4 font-mono text-[11px]">
-          macOS · Windows · Linux
-        </p>
+        {mac ? (
+          <div
+            className="rise mx-auto mt-8 max-w-md"
+            style={{ animationDelay: "800ms" }}
+          >
+            <p className="text-muted font-mono text-[10px] tracking-[0.18em] uppercase">
+              Run this after install
+            </p>
+            <div className="mt-3">
+              <CopyCommand command="xattr -cr /Applications/Yomu.app" />
+            </div>
+            <p className="text-muted mt-3 text-[13px] leading-relaxed">
+              macOS blocks apps without an Apple certificate by default, and
+              Yomu isn't signed yet. Run this in Terminal once to open it.
+            </p>
+          </div>
+        ) : (
+          <p className="text-muted mt-4 font-mono text-[11px]">
+            macOS · Windows · Linux
+          </p>
+        )}
       </Rails>
       <Rails className="relative px-3 pb-16 sm:px-8">
         <div
@@ -644,31 +665,6 @@ function Local() {
   );
 }
 
-/** Yomu is not signed with an Apple certificate yet, so macOS blocks the
- * first launch; this is the one command that opens it. */
-function Install() {
-  return (
-    <section id="install" className="border-b border-[var(--color-line)]">
-      <Rails className="px-5 py-20 text-center">
-        <Reveal>
-          <Label n="08">On macOS</Label>
-          <h2 className="font-display mx-auto mt-5 max-w-xl text-[1.9rem] leading-[1.1] font-normal tracking-[-0.03em] sm:text-4xl">
-            Run this once after installing.
-          </h2>
-          <div className="mx-auto mt-8 max-w-xl">
-            <CopyCommand command="xattr -cr /Applications/Yomu.app" />
-          </div>
-          <p className="text-muted mx-auto mt-5 max-w-md text-sm leading-relaxed">
-            macOS blocks apps that aren't signed with an Apple certificate by
-            default, and Yomu isn't yet. Run this in Terminal once and it opens
-            normally from then on.
-          </p>
-        </Reveal>
-      </Rails>
-    </section>
-  );
-}
-
 function Cta() {
   return (
     <section className="border-b border-[var(--color-line)]">
@@ -728,7 +724,6 @@ export default function App() {
         <Settings />
         <Agents />
         <Local />
-        <Install />
         <Cta />
       </main>
       <Footer />
