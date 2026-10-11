@@ -1,4 +1,5 @@
 import { useEffect, useState, type ReactNode } from "react";
+import { DownloadMenu } from "./download";
 import {
   ArrowRight,
   ArrowUpRight,
@@ -34,7 +35,6 @@ function Github({ className }: { className?: string }) {
 }
 
 const REPO = "https://github.com/ASHUTOSH-SWAIN-GIT/Yomu";
-const DOWNLOAD = `${REPO}/releases/latest`;
 const VERSION = "v0.1.2";
 
 /** The page sits between two vertical rails, like a ruled notebook. */
@@ -169,12 +169,7 @@ function Nav() {
           >
             {dark ? <Sun className="size-4" /> : <Moon className="size-4" />}
           </button>
-          <a
-            href={DOWNLOAD}
-            className="bg-ink text-paper rounded-md px-3.5 py-1.5 text-sm font-medium hover:opacity-90"
-          >
-            Download
-          </a>
+          <DownloadMenu size="sm" label="Download" align="right" />
         </div>
       </div>
     </header>
@@ -211,16 +206,10 @@ function Hero() {
           papers, with the AI agent already on your computer beside every page.
         </p>
         <div
-          className="rise mt-9 flex flex-wrap items-center justify-center gap-3"
+          className="rise relative z-20 mt-9 flex flex-wrap items-center justify-center gap-3"
           style={{ animationDelay: "240ms" }}
         >
-          <a
-            href={DOWNLOAD}
-            className="bg-ink text-paper inline-flex items-center gap-2 rounded-lg px-5 py-3 text-sm font-medium shadow-[0_8px_24px_-10px_rgb(30_27_23/0.6)] hover:opacity-90"
-          >
-            Download for free
-            <ArrowRight className="size-4" />
-          </a>
+          <DownloadMenu />
           <a
             href={REPO}
             className="bg-card inline-flex items-center gap-2 rounded-lg px-5 py-3 text-sm font-medium shadow-[0_0_0_1px_var(--color-line)] hover:shadow-[0_0_0_1px_var(--color-muted)]"
@@ -649,12 +638,7 @@ function Cta() {
           Your next long read deserves better than a browser tab.
         </h2>
         <div className="mt-10 flex flex-wrap justify-center gap-3">
-          <a
-            href={DOWNLOAD}
-            className="bg-ink text-paper inline-flex items-center gap-2 rounded-lg px-5 py-3 text-sm font-medium hover:opacity-90"
-          >
-            Download Yomu <ArrowRight className="size-4" />
-          </a>
+          <DownloadMenu label="Download Yomu" />
           <a
             href={`${REPO}#readme`}
             className="text-muted hover:text-ink inline-flex items-center gap-1.5 px-3 py-3 text-sm"
