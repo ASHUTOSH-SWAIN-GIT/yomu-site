@@ -45,6 +45,7 @@
   --color-night-2: var(--night-2);
   --color-night-line: var(--night-line);
 
+  --font-display: "Geist Variable", "Inter Variable", ui-sans-serif, sans-serif;
   --font-sans: "Inter Variable", ui-sans-serif, system-ui, sans-serif;
   --font-serif: "Newsreader Variable", ui-serif, Georgia, serif;
   --font-mono: "IBM Plex Mono", ui-monospace, monospace;

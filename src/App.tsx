@@ -1,5 +1,6 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { DownloadMenu } from "./download";
+import { CopyCommand } from "./copy";
 import { Reveal } from "./reveal";
 import {
   ArrowRight,
@@ -191,7 +192,7 @@ function Hero() {
           free · open source · local first
           <ArrowRight className="size-3" />
         </a>
-        <h1 className="mx-auto mt-7 max-w-4xl font-sans text-[2.9rem] leading-[1.02] font-semibold tracking-[-0.045em] sm:text-[5rem]">
+        <h1 className="mx-auto mt-7 max-w-4xl font-display text-[2.9rem] leading-[1.04] font-normal tracking-[-0.04em] sm:text-[5rem]">
           <span className="block">
             <span className="word" style={{ animationDelay: "80ms" }}>
               Read
@@ -643,13 +644,38 @@ function Local() {
   );
 }
 
+/** Yomu is not signed with an Apple certificate yet, so macOS blocks the
+ * first launch; this is the one command that opens it. */
+function Install() {
+  return (
+    <section id="install" className="border-b border-[var(--color-line)]">
+      <Rails className="px-5 py-20 text-center">
+        <Reveal>
+          <Label n="08">On macOS</Label>
+          <h2 className="font-display mx-auto mt-5 max-w-xl text-[1.9rem] leading-[1.1] font-normal tracking-[-0.03em] sm:text-4xl">
+            Run this once after installing.
+          </h2>
+          <div className="mx-auto mt-8 max-w-xl">
+            <CopyCommand command="xattr -cr /Applications/Yomu.app" />
+          </div>
+          <p className="text-muted mx-auto mt-5 max-w-md text-sm leading-relaxed">
+            macOS blocks apps that aren't signed with an Apple certificate by
+            default, and Yomu isn't yet. Run this in Terminal once and it opens
+            normally from then on.
+          </p>
+        </Reveal>
+      </Rails>
+    </section>
+  );
+}
+
 function Cta() {
   return (
     <section className="border-b border-[var(--color-line)]">
       <Rails className="px-5 py-28 text-center">
         <Reveal>
           <img src="/icon.png" alt="" className="mx-auto size-20" />
-          <h2 className="mx-auto mt-8 max-w-3xl font-sans text-[2.4rem] leading-[1.05] font-semibold tracking-[-0.04em] sm:text-6xl">
+          <h2 className="mx-auto mt-8 max-w-3xl font-display text-[2.4rem] leading-[1.06] font-normal tracking-[-0.04em] sm:text-6xl">
             Your next long read deserves better than a browser tab.
           </h2>
           <div className="mt-10 flex flex-wrap justify-center gap-3">
@@ -702,6 +728,7 @@ export default function App() {
         <Settings />
         <Agents />
         <Local />
+        <Install />
         <Cta />
       </main>
       <Footer />
