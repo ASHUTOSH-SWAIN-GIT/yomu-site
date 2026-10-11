@@ -144,6 +144,19 @@ body {
   transform: none;
 }
 
+/* The isometric page stacks drift a little, out of step with each other. */
+.float-slow {
+  animation: float 7s ease-in-out infinite;
+}
+.float-slower {
+  animation: float 9s ease-in-out -3s infinite;
+}
+@keyframes float {
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
 /* The download menu grows out of its button, its rows following one by one. */
 .pop {
   transform-origin: top center;
@@ -191,6 +204,8 @@ body {
   .fade-down,
   .pop,
   .item-in,
+  .float-slow,
+  .float-slower,
   .blink {
     animation: none;
   }

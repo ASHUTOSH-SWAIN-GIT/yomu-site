@@ -1,7 +1,8 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { DownloadMenu, detect } from "./download";
 import { CopyCommand } from "./copy";
-import { Brackets, Frame, Gutters, Stats, Tag } from "./grid";
+import { Brackets, Stats, Tag } from "./grid";
+import { IsoGrid, PageStack } from "./iso";
 import { Reveal } from "./reveal";
 import {
   ArrowRight,
@@ -184,7 +185,8 @@ function Hero() {
   const [mac, setMac] = useState(true);
   useEffect(() => setMac(detect() === "mac"), []);
   return (
-    <section className="border-b border-[var(--color-line)]">
+    <section className="relative isolate border-b border-[var(--color-line)]">
+      <IsoGrid className="absolute inset-x-0 top-0 -z-10 h-[46rem] w-full" />
       <Rails className="px-5 pt-20 pb-16 text-center sm:pt-28">
         <a
           href={`${REPO}/releases`}
@@ -196,7 +198,12 @@ function Hero() {
           free · open source · local first
           <ArrowRight className="size-3" />
         </a>
-        <Frame className="-mx-5 mt-9 px-5 py-9 sm:py-11">
+        <div className="relative mt-7">
+          <PageStack className="float-slow absolute top-1/2 -left-4 hidden w-48 -translate-y-1/2 xl:block" />
+          <PageStack
+            sheets={3}
+            className="float-slower absolute top-1/2 -right-2 hidden w-40 -translate-y-[30%] -scale-x-100 xl:block"
+          />
           <h1 className="mx-auto max-w-4xl font-display text-[2.9rem] leading-[1.04] font-normal tracking-[-0.04em] sm:text-[5rem]">
             <span className="block">
               <span className="word" style={{ animationDelay: "80ms" }}>
@@ -215,7 +222,7 @@ function Hero() {
               </span>
             </span>
           </h1>
-        </Frame>
+        </div>
         <p
           className="rise text-muted mx-auto mt-6 max-w-xl text-[1.05rem] leading-relaxed"
           style={{ animationDelay: "560ms" }}
@@ -376,7 +383,7 @@ function Features() {
       <Rails className="px-5 pt-20 text-center sm:px-8">
         <Reveal>
           <Tag>What it does</Tag>
-          <Frame className="-mx-5 mt-5 px-5 py-12 sm:-mx-8 sm:px-8">
+          <div className="mt-5 pb-14">
             <h2 className="font-serif text-[2.4rem] leading-tight font-medium tracking-tight sm:text-5xl">
               Made for reading that takes effort.
             </h2>
@@ -384,7 +391,7 @@ function Features() {
               Long posts, dense docs, forty-page papers. Yomu keeps you in the
               text and gives you help the moment you need it.
             </p>
-          </Frame>
+          </div>
         </Reveal>
       </Rails>
       <Rails className="border-t border-[var(--color-line)]">
@@ -684,15 +691,16 @@ function Local() {
 
 function Cta() {
   return (
-    <section className="border-b border-[var(--color-line)]">
+    <section className="relative isolate border-b border-[var(--color-line)]">
+      <IsoGrid className="absolute inset-0 -z-10 h-full w-full" />
       <Rails className="px-5 py-28 text-center">
         <Reveal>
           <img src="/icon.png" alt="" className="mx-auto size-20" />
-          <Frame className="-mx-5 mt-10 px-5 py-10">
+          <div className="mt-8">
             <h2 className="mx-auto max-w-3xl font-display text-[2.4rem] leading-[1.06] font-normal tracking-[-0.04em] sm:text-6xl">
               Your next long read deserves better than a browser tab.
             </h2>
-          </Frame>
+          </div>
           <div className="mt-10 flex flex-wrap justify-center gap-3">
             <DownloadMenu label="Download Yomu" />
             <a
@@ -737,7 +745,6 @@ export default function App() {
     <>
       <Nav />
       <main className="relative isolate overflow-x-clip">
-        <Gutters />
         <Hero />
         <Steps />
         <Features />

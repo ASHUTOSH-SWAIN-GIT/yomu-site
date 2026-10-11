@@ -1,67 +1,7 @@
 import type { ReactNode } from "react";
 
-/* The page's drafting grid: hatched gutters beside the rails, full-width
- * rules that meet the rails at small crosses, and corner brackets. All of it
- * is decoration, hidden from screen readers. */
-
-const HATCH =
-  "repeating-linear-gradient(135deg, var(--color-line) 0 1px, transparent 1px 7px)";
-
-/** A hatched band just outside each rail, down the whole page. Sections
- * with their own background (the dark one) paint over it. */
-export function Gutters() {
-  const band =
-    "absolute inset-y-0 hidden w-10 border-[var(--color-line)] xl:block";
-  return (
-    <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
-      <div
-        className={`${band} right-[calc(50%+36rem)] border-l`}
-        style={{ backgroundImage: HATCH }}
-      />
-      <div
-        className={`${band} left-[calc(50%+36rem)] border-r`}
-        style={{ backgroundImage: HATCH }}
-      />
-    </div>
-  );
-}
-
-function Cross({ className }: { className: string }) {
-  return (
-    <svg
-      aria-hidden
-      viewBox="0 0 11 11"
-      className={`text-muted absolute z-10 size-[11px] ${className}`}
-    >
-      <path d="M5.5 0v11M0 5.5h11" stroke="currentColor" strokeWidth="1" />
-    </svg>
-  );
-}
-
-/** Rules across the whole width above and below the content, with a cross
- * where each meets a rail. The element must span the rails exactly (undo
- * the section's side padding with negative margins). */
-export function Frame({
-  children,
-  className = "",
-}: {
-  children: ReactNode;
-  className?: string;
-}) {
-  const rule =
-    "pointer-events-none absolute left-1/2 h-px w-[200vw] -translate-x-1/2 bg-[var(--color-line)]";
-  return (
-    <div className={`relative ${className}`}>
-      <i aria-hidden className={`${rule} top-0`} />
-      <i aria-hidden className={`${rule} bottom-0`} />
-      <Cross className="top-0 left-0 -translate-x-1/2 -translate-y-1/2" />
-      <Cross className="top-0 right-0 translate-x-1/2 -translate-y-1/2" />
-      <Cross className="bottom-0 left-0 -translate-x-1/2 translate-y-1/2" />
-      <Cross className="right-0 bottom-0 translate-x-1/2 translate-y-1/2" />
-      {children}
-    </div>
-  );
-}
+/* Small drafting touches: corner brackets, bracketed labels, a row of
+ * stat cells. Decoration is hidden from screen readers. */
 
 /** Small L-shaped marks just outside each corner. */
 export function Brackets({
