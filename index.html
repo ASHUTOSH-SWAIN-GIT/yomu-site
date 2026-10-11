@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="/icon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      Yomu: a calm reader for blogs and papers, with your own AI agent
+    </title>
+    <meta
+      name="description"
+      content="Yomu is a free, open-source desktop reader for technical blogs, docs and research papers. Ask the AI agent already on your computer about what you read. Local first, no account."
+    />
+    <meta property="og:title" content="Yomu" />
+    <meta
+      property="og:description"
+      content="Read deeply. Ask anything. A desktop reader for blogs and research papers, with your own AI agent beside every page."
+    />
+    <meta property="og:image" content="/icon.png" />
+    <script>
+      // Before first paint, so the page never flashes the wrong theme.
+      try {
+        const saved = localStorage.getItem("theme");
+        const dark = saved
+          ? saved === "dark"
+          : matchMedia("(prefers-color-scheme: dark)").matches;
+        document.documentElement.classList.toggle("dark", dark);
+      } catch {}
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
