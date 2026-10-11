@@ -251,25 +251,6 @@ function Hero() {
   );
 }
 
-function Marquee({ words }: { words: string[] }) {
-  const run = [...words, ...words, ...words, ...words];
-  return (
-    <div
-      aria-hidden
-      className="bg-ink text-paper/80 overflow-hidden border-y border-[var(--color-ink)] py-2.5"
-    >
-      <div className="marquee flex w-max gap-8 font-mono text-[11px] tracking-[0.18em] uppercase">
-        {run.map((w, i) => (
-          <span key={i} className="flex items-center gap-8">
-            {w}
-            <i className="bg-ribbon size-1 rounded-full" />
-          </span>
-        ))}
-      </div>
-    </div>
-  );
-}
-
 function Steps() {
   const steps = [
     {
@@ -716,22 +697,11 @@ export default function App() {
       <Nav />
       <main>
         <Hero />
-        <Marquee
-          words={[
-            "blogs",
-            "docs",
-            "research papers",
-            "your own agent",
-            "local first",
-            "open source",
-          ]}
-        />
         <Steps />
         <Features />
         <Settings />
         <Agents />
         <Local />
-        <Marquee words={["read deeply", "ask anything", "読む"]} />
         <Cta />
       </main>
       <Footer />
