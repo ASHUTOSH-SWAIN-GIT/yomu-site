@@ -3,7 +3,7 @@ import { DownloadMenu, detect } from "./download";
 import { CopyCommand } from "./copy";
 import { Brackets, Stats, Tag } from "./grid";
 import { Reveal } from "./reveal";
-import { MockApp } from "./mock-app";
+import { ClaudeLogo, CodexLogo, OpenCodeLogo } from "./agent-logos";
 import { Calligraph } from "calligraph";
 import {
   ArrowRight,
@@ -11,6 +11,7 @@ import {
   FileText,
   HardDrive,
   KeyRound,
+  Lock,
   Link2,
   MessageSquare,
   Moon,
@@ -269,11 +270,13 @@ function Hero() {
           className="glow bg-ribbon/15 absolute inset-x-24 top-16 -z-10 h-64 rounded-full blur-3xl"
         />
         <div className="lift" style={{ animationDelay: "800ms" }}>
-          <MockApp />
-          <p className="text-muted mt-4 hidden text-center font-mono text-[11px] sm:block">
-            A live preview: open an article, point at the underlined term, ask
-            the chat something.
-          </p>
+          <Shot
+            name="hero"
+            alt="Yomu with an article open and the agent answering in the chat beside it"
+            width={2880}
+            height={1800}
+            eager
+          />
         </div>
       </Rails>
     </section>
@@ -505,10 +508,34 @@ function Features() {
 }
 
 const AGENTS = [
-  { name: "Codex", by: "OpenAI", note: "Uses your ChatGPT plan" },
-  { name: "Claude Code", by: "Anthropic", note: "Uses your Claude plan" },
-  { name: "OpenCode", by: "SST", note: "Any model it supports" },
-  { name: "Your own", by: "ACP", note: "Any agent that speaks ACP" },
+  {
+    name: "Codex",
+    by: "OpenAI",
+    logo: CodexLogo,
+    plan: "Your ChatGPT plan",
+    note: "The Codex CLI, signed in with ChatGPT.",
+  },
+  {
+    name: "Claude Code",
+    by: "Anthropic",
+    logo: ClaudeLogo,
+    plan: "Your Claude plan",
+    note: "Claude's coding agent, already on your Mac.",
+  },
+  {
+    name: "OpenCode",
+    by: "SST",
+    logo: OpenCodeLogo,
+    plan: "Any model it supports",
+    note: "Open source, works with most providers.",
+  },
+  {
+    name: "Your own",
+    by: "Any ACP agent",
+    logo: Terminal,
+    plan: "Whatever it uses",
+    note: "Point Yomu at any command that speaks ACP.",
+  },
 ];
 
 function Agents() {
@@ -524,7 +551,7 @@ function Agents() {
       body: "Nothing runs until you pick an agent and agree to what it can see. Asked once, never again.",
     },
     {
-      icon: Terminal,
+      icon: Lock,
       title: "Fenced in",
       body: "On macOS and Linux the agent runs sandboxed. It reads your library through Yomu's own tools.",
     },
@@ -536,35 +563,52 @@ function Agents() {
     >
       <Rails className="border-[var(--color-night-line)] px-5 py-24 sm:px-12">
         <Label n="05">Agents</Label>
-        <Reveal className="mt-6 grid gap-10 lg:grid-cols-[1.1fr_1fr] lg:items-end">
-          <h2 className="font-serif text-[2.4rem] leading-[1.05] font-medium tracking-tight sm:text-[3.4rem]">
+        <Reveal className="mt-6 max-w-3xl">
+          <h2 className="font-display text-[2.4rem] leading-[1.05] font-normal tracking-[-0.04em] sm:text-[3.4rem]">
             Bring the agent
             <br />
-            <em className="text-ribbon font-normal">you already pay for.</em>
+            <span className="text-ribbon">you already pay for.</span>
           </h2>
-          <p className="text-snow/60 leading-relaxed">
+          <p className="text-snow/60 mt-6 max-w-xl leading-relaxed">
             Yomu doesn't ship its own AI or resell tokens. It talks to the
             coding agent on your machine over the Agent Client Protocol, and
             gives it good context: the article, the passage, the page, and a way
             to search everything else you've read.
           </p>
         </Reveal>
-        <div className="mt-14 grid gap-px overflow-hidden rounded-xl bg-[var(--color-night-line)] sm:grid-cols-2 lg:grid-cols-4">
+
+        <div className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {AGENTS.map((a, i) => (
-            <Reveal key={a.name} delay={i * 80} className="bg-night-2 p-6">
+            <Reveal
+              key={a.name}
+              delay={i * 80}
+              className="bg-night-2 group flex flex-col rounded-2xl p-6 shadow-[0_0_0_1px_var(--color-night-line)] transition-shadow duration-300 hover:shadow-[0_0_0_1px_rgb(255_255_255/0.18)]"
+            >
+              <span className="grid size-14 place-items-center rounded-2xl bg-white/[0.06] shadow-[inset_0_0_0_1px_rgb(255_255_255/0.08)]">
+                <a.logo className="size-7" />
+              </span>
+              <p className="mt-5 text-lg font-medium">{a.name}</p>
               <p className="text-snow/40 font-mono text-[10px] tracking-widest uppercase">
                 {a.by}
               </p>
-              <p className="mt-2 text-lg font-medium">{a.name}</p>
-              <p className="text-snow/50 mt-1 text-sm">{a.note}</p>
+              <p className="text-snow/55 mt-4 text-sm leading-relaxed">
+                {a.note}
+              </p>
+              <p className="border-night-line mt-5 border-t pt-4 text-[13px]">
+                <span className="text-snow/40 font-mono text-[10px] tracking-widest uppercase">
+                  Billed to
+                </span>
+                <span className="mt-1 block">{a.plan}</span>
+              </p>
             </Reveal>
           ))}
         </div>
-        <div className="mt-14 grid gap-10 sm:grid-cols-3">
+
+        <div className="mt-16 grid gap-px overflow-hidden rounded-2xl bg-[var(--color-night-line)] sm:grid-cols-3">
           {promises.map((p, i) => (
-            <Reveal key={p.title} delay={i * 100}>
+            <Reveal key={p.title} delay={i * 100} className="bg-night p-7">
               <p.icon className="text-ribbon size-5" strokeWidth={1.5} />
-              <h3 className="mt-3 font-medium">{p.title}</h3>
+              <h3 className="mt-4 font-medium">{p.title}</h3>
               <p className="text-snow/55 mt-1.5 text-sm leading-relaxed">
                 {p.body}
               </p>
