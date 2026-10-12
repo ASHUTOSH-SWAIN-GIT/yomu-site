@@ -3,6 +3,8 @@ import { DownloadMenu, detect } from "./download";
 import { CopyCommand } from "./copy";
 import { Brackets, Stats, Tag } from "./grid";
 import { Reveal } from "./reveal";
+import { MockApp } from "./mock-app";
+import { Calligraph } from "calligraph";
 import {
   ArrowRight,
   ArrowUpRight,
@@ -212,8 +214,9 @@ function Hero() {
           className="rise text-muted mx-auto mt-6 max-w-xl text-[1.05rem] leading-relaxed"
           style={{ animationDelay: "560ms" }}
         >
-          Yomu is a calm desktop reader for technical blogs, docs and research
-          papers, with the AI agent already on your computer beside every page.
+          Yomu is a calm desktop reader for technical{" "}
+          <RotatingWord words={["blogs", "docs", "research papers"]} />, with
+          the AI agent already on your computer beside every page.
         </p>
         <div
           className="rise relative z-20 mt-9 flex flex-wrap items-center justify-center gap-3"
@@ -266,16 +269,30 @@ function Hero() {
           className="glow bg-ribbon/15 absolute inset-x-24 top-16 -z-10 h-64 rounded-full blur-3xl"
         />
         <div className="lift" style={{ animationDelay: "800ms" }}>
-          <Shot
-            name="hero"
-            alt="Yomu with an article open and the agent answering in the chat beside it"
-            width={2880}
-            height={1800}
-            eager
-          />
+          <MockApp />
+          <p className="text-muted mt-4 hidden text-center font-mono text-[11px] sm:block">
+            A live preview: open an article, point at the underlined term, ask
+            the chat something.
+          </p>
         </div>
       </Rails>
     </section>
+  );
+}
+
+/** One word of a sentence that changes every few seconds; letters the
+ * words share glide into place. Still for people who ask for less motion. */
+function RotatingWord({ words }: { words: string[] }) {
+  const [i, setI] = useState(0);
+  useEffect(() => {
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const t = setInterval(() => setI((n) => (n + 1) % words.length), 2600);
+    return () => clearInterval(t);
+  }, [words.length]);
+  return (
+    <span className="text-ink">
+      <Calligraph animation="smooth">{words[i]}</Calligraph>
+    </span>
   );
 }
 
@@ -340,7 +357,7 @@ function Feature({
         className={`flex flex-col justify-center p-8 sm:p-12 ${flip ? "md:order-2" : ""}`}
       >
         <Label n={n}>{tag}</Label>
-        <h3 className="mt-5 font-serif text-[2rem] leading-[1.1] font-medium tracking-tight">
+        <h3 className="mt-5 font-display text-[2rem] leading-[1.1] font-normal tracking-[-0.035em]">
           {title}
         </h3>
         <p className="text-muted mt-4 leading-relaxed">{body}</p>
@@ -369,7 +386,7 @@ function Features() {
         <Reveal>
           <Tag>What it does</Tag>
           <div className="mt-5 pb-14">
-            <h2 className="font-serif text-[2.4rem] leading-tight font-medium tracking-tight sm:text-5xl">
+            <h2 className="font-display text-[2.4rem] leading-tight font-normal tracking-[-0.04em] sm:text-5xl">
               Made for reading that takes effort.
             </h2>
             <p className="text-muted mx-auto mt-4 max-w-lg">
