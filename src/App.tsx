@@ -508,34 +508,10 @@ function Features() {
 }
 
 const AGENTS = [
-  {
-    name: "Codex",
-    by: "OpenAI",
-    logo: CodexLogo,
-    plan: "Your ChatGPT plan",
-    note: "The Codex CLI, signed in with ChatGPT.",
-  },
-  {
-    name: "Claude Code",
-    by: "Anthropic",
-    logo: ClaudeLogo,
-    plan: "Your Claude plan",
-    note: "Claude's coding agent, already on your Mac.",
-  },
-  {
-    name: "OpenCode",
-    by: "SST",
-    logo: OpenCodeLogo,
-    plan: "Any model it supports",
-    note: "Open source, works with most providers.",
-  },
-  {
-    name: "Your own",
-    by: "Any ACP agent",
-    logo: Terminal,
-    plan: "Whatever it uses",
-    note: "Point Yomu at any command that speaks ACP.",
-  },
+  { name: "Codex", by: "OpenAI", logo: CodexLogo },
+  { name: "Claude Code", by: "Anthropic", logo: ClaudeLogo },
+  { name: "OpenCode", by: "SST", logo: OpenCodeLogo },
+  { name: "Your own", by: "Any ACP agent", logo: Terminal },
 ];
 
 function Agents() {
@@ -557,11 +533,8 @@ function Agents() {
     },
   ];
   return (
-    <section
-      id="agents"
-      className="bg-night text-snow dots border-b border-[var(--color-night-line)]"
-    >
-      <Rails className="border-[var(--color-night-line)] px-5 py-24 sm:px-12">
+    <section id="agents" className="border-b border-[var(--color-line)]">
+      <Rails className="px-5 py-24 sm:px-12">
         <Label n="05">Agents</Label>
         <Reveal className="mt-6 max-w-3xl">
           <h2 className="font-display text-[2.4rem] leading-[1.05] font-normal tracking-[-0.04em] sm:text-[3.4rem]">
@@ -569,7 +542,7 @@ function Agents() {
             <br />
             <span className="text-ribbon">you already pay for.</span>
           </h2>
-          <p className="text-snow/60 mt-6 max-w-xl leading-relaxed">
+          <p className="text-muted mt-6 max-w-xl leading-relaxed">
             Yomu doesn't ship its own AI or resell tokens. It talks to the
             coding agent on your machine over the Agent Client Protocol, and
             gives it good context: the article, the passage, the page, and a way
@@ -577,39 +550,30 @@ function Agents() {
           </p>
         </Reveal>
 
-        <div className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-12 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           {AGENTS.map((a, i) => (
             <Reveal
               key={a.name}
-              delay={i * 80}
-              className="bg-night-2 group flex flex-col rounded-2xl p-6 shadow-[0_0_0_1px_var(--color-night-line)] transition-shadow duration-300 hover:shadow-[0_0_0_1px_rgb(255_255_255/0.18)]"
+              delay={i * 70}
+              className="bg-card flex items-center gap-3.5 rounded-xl p-3.5 shadow-[0_0_0_1px_var(--color-line)]"
             >
-              <span className="grid size-14 place-items-center rounded-2xl bg-white/[0.06] shadow-[inset_0_0_0_1px_rgb(255_255_255/0.08)]">
-                <a.logo className="size-7" />
+              <span className="bg-wash grid size-11 shrink-0 place-items-center rounded-lg">
+                <a.logo className="size-6" />
               </span>
-              <p className="mt-5 text-lg font-medium">{a.name}</p>
-              <p className="text-snow/40 font-mono text-[10px] tracking-widest uppercase">
-                {a.by}
-              </p>
-              <p className="text-snow/55 mt-4 text-sm leading-relaxed">
-                {a.note}
-              </p>
-              <p className="border-night-line mt-5 border-t pt-4 text-[13px]">
-                <span className="text-snow/40 font-mono text-[10px] tracking-widest uppercase">
-                  Billed to
-                </span>
-                <span className="mt-1 block">{a.plan}</span>
-              </p>
+              <span className="min-w-0">
+                <span className="block font-medium">{a.name}</span>
+                <span className="text-muted block text-[13px]">{a.by}</span>
+              </span>
             </Reveal>
           ))}
         </div>
 
-        <div className="mt-16 grid gap-px overflow-hidden rounded-2xl bg-[var(--color-night-line)] sm:grid-cols-3">
+        <div className="mt-14 grid gap-10 sm:grid-cols-3">
           {promises.map((p, i) => (
-            <Reveal key={p.title} delay={i * 100} className="bg-night p-7">
+            <Reveal key={p.title} delay={i * 100}>
               <p.icon className="text-ribbon size-5" strokeWidth={1.5} />
-              <h3 className="mt-4 font-medium">{p.title}</h3>
-              <p className="text-snow/55 mt-1.5 text-sm leading-relaxed">
+              <h3 className="mt-3 font-medium">{p.title}</h3>
+              <p className="text-muted mt-1.5 text-sm leading-relaxed">
                 {p.body}
               </p>
             </Reveal>
