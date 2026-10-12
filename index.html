@@ -19,11 +19,9 @@
     <meta property="og:image" content="/icon.png" />
     <script>
       // Before first paint, so the page never flashes the wrong theme.
+      // Light unless the visitor has picked dark.
       try {
-        const saved = localStorage.getItem("theme");
-        const dark = saved
-          ? saved === "dark"
-          : matchMedia("(prefers-color-scheme: dark)").matches;
+        const dark = localStorage.getItem("theme") === "dark";
         document.documentElement.classList.toggle("dark", dark);
       } catch {}
     </script>

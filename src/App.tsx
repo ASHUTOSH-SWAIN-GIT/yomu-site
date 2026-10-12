@@ -63,20 +63,12 @@ function Label({ n, children }: { n: string; children: ReactNode }) {
   );
 }
 
-/** Light or dark, saved once the visitor picks; until then it follows the
- * system. `index.html` applies it before the first paint. */
+/** Light by default; dark once the visitor picks it, and then remembered.
+ * `index.html` applies it before the first paint. */
 function useTheme() {
   const [dark, setDark] = useState(() =>
     document.documentElement.classList.contains("dark"),
   );
-  useEffect(() => {
-    const media = matchMedia("(prefers-color-scheme: dark)");
-    const follow = () => {
-      if (!localStorage.getItem("theme")) setDark(media.matches);
-    };
-    media.addEventListener("change", follow);
-    return () => media.removeEventListener("change", follow);
-  }, []);
   useEffect(() => {
     document.documentElement.classList.toggle("dark", dark);
   }, [dark]);

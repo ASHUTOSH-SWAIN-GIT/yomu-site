@@ -8,9 +8,10 @@ import "@fontsource/ibm-plex-mono/400.css";
 import "@fontsource/ibm-plex-mono/500.css";
 import "./index.css";
 import App from "./App.tsx";
+import StatsPage from "./stats-page.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <App />
+    {location.pathname === "/stats" ? <StatsPage /> : <App />}
   </StrictMode>,
 );
