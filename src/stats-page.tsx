@@ -1,14 +1,8 @@
 import { useEffect, useState, type FormEvent } from "react";
 
-type Row = { label: string; n: number };
-type Day = { day: string; n: number };
 type Data = {
-  totals: { installs: string; dau: string; wau: string; mau: string };
-  newPerDay: Day[];
-  activePerDay: Day[];
-  byVersion: Row[];
-  byOs: Row[];
-  usage: Row[];
+  totals: { total: number; active_30d: number };
+  byOs: { label: string; n: number }[];
 };
 
 const KEY = "yomu-stats-password";
@@ -77,55 +71,42 @@ export default function StatsPage() {
     );
   }
 
-  const t = data.totals;
+  const { total, active_30d } = data.totals;
   return (
     <main className="mx-auto max-w-3xl space-y-8 px-4 py-10">
       <h1 className="text-xl font-semibold">Yomu stats</h1>
 
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-        <Tile label="Total installs" value={t.installs} />
-        <Tile label="Active today" value={t.dau} />
-        <Tile label="Active 7 days" value={t.wau} />
-        <Tile label="Active 30 days" value={t.mau} />
+      <div className="grid grid-cols-2 gap-3">
+        <Tile label="Total users" value={total} />
+        <Tile label="Active in 30 days" value={active_30d} />
       </div>
 
-      <DayTable title="New installs, last 30 days" rows={data.newPerDay} />
-      <DayTable title="Active installs per day" rows={data.activePerDay} />
-      <div className="grid gap-8 sm:grid-cols-2">
-        <RowTable title="Version (30 days)" rows={data.byVersion} />
-        <RowTable title="OS (30 days)" rows={data.byOs} />
-      </div>
-      <RowTable title="Actions (30 days)" rows={data.usage} />
+      <section>
+        <h2 className="mb-2 font-medium">By OS</h2>
+        {data.byOs.length === 0 && (
+          <p className="text-sm opacity-60">No data yet.</p>
+        )}
+        {data.byOs.map((r) => (
+          <div
+            key={r.label}
+            className="flex justify-between border-b py-1 text-sm"
+          >
+            <span>{r.label}</span>
+            <span className="tabular-nums">
+              {r.n} ({total ? Math.round((r.n / total) * 100) : 0}%)
+            </span>
+          </div>
+        ))}
+      </section>
     </main>
   );
 }
 
-function Tile({ label, value }: { label: string; value: string }) {
+function Tile({ label, value }: { label: string; value: number }) {
   return (
     <div className="rounded-xl border p-4">
       <div className="text-3xl font-semibold tabular-nums">{value}</div>
       <div className="text-sm opacity-70">{label}</div>
     </div>
-  );
-}
-
-function RowTable({ title, rows }: { title: string; rows: Row[] }) {
-  return (
-    <section>
-      <h2 className="mb-2 font-medium">{title}</h2>
-      {rows.length === 0 && <p className="text-sm opacity-60">No data yet.</p>}
-      {rows.map((r) => (
-        <div key={r.label} className="flex justify-between border-b py-1 text-sm">
-          <span>{r.label}</span>
-          <span className="tabular-nums">{r.n}</span>
-        </div>
-      ))}
-    </section>
-  );
-}
-
-function DayTable({ title, rows }: { title: string; rows: Day[] }) {
-  return (
-    <RowTable title={title} rows={rows.map((r) => ({ label: r.day, n: r.n }))} />
   );
 }

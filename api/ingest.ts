@@ -1,8 +1,7 @@
-import { ensureTable, sql } from "./_db";
+import { ensureTable, sql } from "./_db.js";
 
-const EVENTS = new Set(["app_open", "article_added", "pdf_added", "chat_sent"]);
 const UUID = /^[0-9a-f-]{36}$/i;
-const SHORT = /^[\w.+-]{1,32}$/;
+const OSES = new Set(["macos", "windows", "linux"]);
 
 async function handle(req: Request): Promise<Response> {
   if (req.method !== "POST") return new Response(null, { status: 405 });
@@ -13,20 +12,20 @@ async function handle(req: Request): Promise<Response> {
   } catch {
     return new Response(null, { status: 400 });
   }
-  const { id, event, version, os } = body;
+  const { id, os } = body;
   if (
-    typeof id !== "string" || !UUID.test(id) ||
-    typeof event !== "string" || !EVENTS.has(event) ||
-    typeof version !== "string" || !SHORT.test(version) ||
-    typeof os !== "string" || !SHORT.test(os)
+    typeof id !== "string" ||
+    !UUID.test(id) ||
+    typeof os !== "string" ||
+    !OSES.has(os)
   ) {
     return new Response(null, { status: 400 });
   }
 
   await ensureTable();
   await sql`
-    INSERT INTO events (install_id, event, version, os)
-    VALUES (${id}, ${event}, ${version}, ${os})
+    INSERT INTO installs (install_id, os) VALUES (${id}, ${os})
+    ON CONFLICT (install_id) DO UPDATE SET os = ${os}, last_seen = now()
   `;
   return new Response(null, { status: 204 });
 }
